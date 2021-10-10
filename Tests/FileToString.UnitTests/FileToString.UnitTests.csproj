@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Case1Test.string" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="Namespace" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="Visibility" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ClassName" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="FieldName" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -21,7 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\FileToString\FileToString.csproj" />
+    <ProjectReference Include="..\..\Sources\FileToString\FileToString.csproj" OutputItemType="Analyzer" />
+    <AdditionalFiles Include="Case1Test.string" Namespace="FileToString.UnitTests" ClassName="UnitTestSourceTexts" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,7 @@
+﻿namespace TestNamespace
+{
+    public static partial class TestStrings
+    {
+        public static string TestField = @"The test works!";
+    }
+}
