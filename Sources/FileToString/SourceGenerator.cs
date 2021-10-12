@@ -12,6 +12,37 @@
     {
         public void Execute(GeneratorExecutionContext context)
         {
+            string defaultNamespaceName = null;
+            string defaultClassName = "StringLiterals";
+            string defaultVisibility = "public";
+
+            foreach (AdditionalText additionalText in context.AdditionalFiles)
+            {
+                string filename = Path.GetFileName(additionalText.Path);
+                if (string.Equals(filename, "FileToString.config"))
+                {
+                    SourceText text = additionalText.GetText(context.CancellationToken);
+                    if (text != null)
+                    {
+                        string[] lines = text.ToString().Split(new char[] { '\r','\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var line in lines)
+                        {
+                            if (line.StartsWith("namespace="))
+                            {
+                                defaultNamespaceName = line.Substring("namespace=".Length);
+                            }
+                            if (line.StartsWith("className="))
+                            {
+                                defaultClassName = line.Substring("className=".Length);
+                            }
+                            if (line.StartsWith("visibility="))
+                            {
+                                defaultVisibility = line.Substring("visibility=".Length);
+                            }
+                        }
+                    }
+                }
+            }
             foreach (AdditionalText additionalText in context.AdditionalFiles)
             {
                 string filename = Path.GetFileName(additionalText.Path);
@@ -29,14 +60,19 @@
                     options.TryGetValue("build_metadata.additionalfiles.ClassName", out className);
                     options.TryGetValue("build_metadata.additionalfiles.FieldName", out fieldName);
 
+                    if (string.IsNullOrEmpty(namespaceName))
+                    {
+                        namespaceName = defaultNamespaceName;
+                    }
+
                     if (string.IsNullOrEmpty(visibility))
                     {
-                        visibility = "public";
+                        visibility = defaultVisibility;
                     }
 
                     if (string.IsNullOrEmpty(className))
                     {
-                        className = "StringLiterals";
+                        className = defaultClassName;
                     }
 
                     if (string.IsNullOrEmpty(fieldName))
@@ -44,7 +80,7 @@
                         fieldName = Path.GetFileNameWithoutExtension(filename);
                     }
 
-                    SourceText text = additionalText.GetText(CancellationToken.None);
+                    SourceText text = additionalText.GetText(context.CancellationToken);
 
                     if (text != null)
                     {

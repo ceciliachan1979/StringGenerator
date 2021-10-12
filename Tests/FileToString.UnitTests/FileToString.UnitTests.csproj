@@ -33,7 +33,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\FileToString\FileToString.csproj" OutputItemType="Analyzer" />
-    <AdditionalFiles Include="Case1Test.string" Namespace="FileToString.UnitTests" ClassName="UnitTestSourceTexts" />
+    <AdditionalFiles Include="Case1Test.string" />
+    <AdditionalFiles Include="FileToString.config"/>
   </ItemGroup>
 
 </Project>
